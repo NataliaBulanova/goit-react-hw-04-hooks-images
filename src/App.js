@@ -62,20 +62,22 @@ const App = () => {
       }
     };
 
+    if (!query) {
+      return;
+    }
+
     page > 1
       ? FetchImagesWithQuery(query, page).then((imagesFound) => {
           imagesFound.length
             ? setImages((prev) => [...prev, ...imagesFound])
             : toast("Sorry,No more images for your query");
         })
-      : query
-      ? FetchImagesWithQuery(query, page).then((imagesFound) => {
+      : FetchImagesWithQuery(query, page).then((imagesFound) => {
           setImages([]);
           imagesFound.length
             ? setImages([...imagesFound])
             : toast("Sorry, Nothing was found");
-        })
-      : setImages([]);
+        });
   }, [page, query]);
 
   return (
